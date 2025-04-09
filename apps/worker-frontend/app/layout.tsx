@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import { Nav } from "@/components/ui/nav";
 import { Provider } from "./provider";
 
@@ -27,8 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Provider>
           <div className="min-h-screen w-full bg-muted/10 px-10 md:px-20 lg:px-40 xl:px-80 py-10">
             <Nav />
