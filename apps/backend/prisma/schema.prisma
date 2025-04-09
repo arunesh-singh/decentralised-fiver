@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id      Int       @id @default(autoincrement())
+  address String    @unique
+  task    Task[]
+  payout  Payouts[]
+}
+
+model Task {
+  id         Int          @id @default(autoincrement())
+  title      String       @default("Select the most clickable thumbnail")
+  options    Options[]
+  signature  String
+  amount     Int
+  done       Boolean      @default(false)
+  user_id    Int
+  user       User         @relation(fields: [user_id], references: [id])
+  submission Submission[]
+}
+
+model Options {
+  id         Int          @id @default(autoincrement())
+  image_url  String
+  task_id    Int
+  task       Task         @relation(fields: [task_id], references: [id])
+  submission Submission[]
+}
+
+model Balance {
+  id        Int    @id @default(autoincrement())
+  amount    Int
+  worker_id Int    @unique
+  worker    Worker @relation(fields: [worker_id], references: [id])
+}
+
+model Worker {
+  id             Int          @id @default(autoincrement())
+  address        String       @unique
+  submission     Submission[]
+  balance        Balance?
+  pending_amount Int // amount in lamports (1 SOL = 10^9 lamports)
+  locked_amount  Int
+}
+
+model Submission {
+  id        Int     @id @default(autoincrement())
+  amount    String
+  task_id   Int
+  option_id Int
+  worker_id Int
+  task      Task    @relation(fields: [task_id], references: [id])
+  option    Options @relation(fields: [option_id], references: [id])
+  worker    Worker  @relation(fields: [worker_id], references: [id])
+
+  @@unique([task_id, worker_id])
+}
+
+model Payouts {
+  id        Int       @id @default(autoincrement())
+  amount    Int
+  user_id   Int
+  user      User      @relation(fields: [user_id], references: [id])
+  signature String
+  status    TxnStatus
+}
+
+enum TxnStatus {
+  Processing
+  Success
+  Failure
+}
