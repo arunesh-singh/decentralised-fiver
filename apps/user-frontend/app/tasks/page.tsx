@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button } from "@workspace/ui/components/button";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -60,8 +60,7 @@ export default function TasksPage() {
           </p>
           <Button
             onClick={() => setError("")}
-            className="gradient-pink text-black border-none h-16 text-lg px-8"
-          >
+            className="gradient-pink text-black border-none h-16 text-lg px-8">
             OK
           </Button>
         </div>

@@ -1,4 +1,0 @@
-.box-pink {
-    background: var(--color-scroll-gradient), url("path/to/noise.png");
-    background-blend-mode: color-dodge;
-}

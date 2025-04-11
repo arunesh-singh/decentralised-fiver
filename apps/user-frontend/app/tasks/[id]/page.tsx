@@ -1,6 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Task } from "@/schema";
+import { Button } from "@workspace/ui/components/button";
 import axios from "axios";
 import Image from "next/image";
 import { use, useEffect, useState } from "react";
@@ -68,8 +67,7 @@ export default function TasksPage({
         {task?.options?.map((option, index) => (
           <div
             key={index}
-            className="flex flex-col items-center justify-center text-xl text-black select-none  gap-4"
-          >
+            className="flex flex-col items-center justify-center text-xl text-black select-none  gap-4">
             <Image
               src={option.task.imageUrl}
               alt={`Image ${index}`}
@@ -90,8 +88,7 @@ export default function TasksPage({
           </p>
           <Button
             onClick={() => setError("")}
-            className="gradient-pink text-black border-none h-16 text-lg px-8"
-          >
+            className="gradient-pink text-black border-none h-16 text-lg px-8">
             OK
           </Button>
         </div>

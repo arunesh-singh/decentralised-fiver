@@ -1,9 +1,9 @@
 "use client";
 import FileUploaderTest from "@/components/dropzone";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { SystemProgram, Transaction, PublicKey } from "@solana/web3.js";
+import { Button } from "@workspace/ui/components/button";
+import { Input } from "@workspace/ui/components/input";
 import axios from "axios";
 import { useState } from "react";
 
@@ -46,10 +46,10 @@ export default function Home() {
         SystemProgram.transfer({
           fromPubkey: publicKey!,
           toPubkey: new PublicKey(
-            "3UQyJMSTWq7isJZKh6h1PH9zrcykwwQMiMJ89VVksf86",
+            "3UQyJMSTWq7isJZKh6h1PH9zrcykwwQMiMJ89VVksf86"
           ),
           lamports: 100000000,
-        }),
+        })
       );
 
       const latestBlockhash = await connection.getLatestBlockhash("finalized");
@@ -98,22 +98,22 @@ export default function Home() {
           refundTransaction.add(
             SystemProgram.transfer({
               fromPubkey: new PublicKey(
-                "3UQyJMSTWq7isJZKh6h1PH9zrcykwwQMiMJ89VVksf86",
+                "3UQyJMSTWq7isJZKh6h1PH9zrcykwwQMiMJ89VVksf86"
               ),
               toPubkey: publicKey!,
               lamports: 100000000,
-            }),
+            })
           );
 
           const newBlockhash = await connection.getLatestBlockhash("finalized");
           refundTransaction.recentBlockhash = newBlockhash.blockhash;
           refundTransaction.feePayer = new PublicKey(
-            "3UQyJMSTWq7isJZKh6h1PH9zrcykwwQMiMJ89VVksf86",
+            "3UQyJMSTWq7isJZKh6h1PH9zrcykwwQMiMJ89VVksf86"
           );
 
           setError(
             "Transaction failed. Initiating refund process. Please contact support with this ID: " +
-              originalSignature,
+              originalSignature
           );
 
           await axios.post(
@@ -126,18 +126,18 @@ export default function Home() {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
-            },
+            }
           );
         } catch (refundError) {
           console.error("Refund failed:", refundError);
           setError(
             "Transaction and refund failed. Please contact support with this ID: " +
-              originalSignature,
+              originalSignature
           );
         }
       }
     } catch (error: any) {
-      setError("Error making payment.", error?.message);
+      setError(`Error making payment. ${error?.message}`);
       console.error("Error making payment:", error);
     } finally {
       setLoading(false);
@@ -169,7 +169,7 @@ export default function Home() {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        },
+        }
       );
 
       if (res.status === 200) {
@@ -179,7 +179,7 @@ export default function Home() {
       }
       console.log("Task created successfully!", res);
     } catch (error: any) {
-      setError("Error creating task.", error?.response?.data?.message);
+      setError(`Error creating task. ${error?.response?.data?.message}`);
       console.error("Error creating task:", error);
     } finally {
       setLoading(false);
@@ -206,8 +206,7 @@ export default function Home() {
           <Button
             disabled={loading}
             onClick={txSignature ? submitTask : makePayment}
-            className="gradient-pink text-black border-none h-16 text-lg px-8"
-          >
+            className="gradient-pink text-black border-none h-16 text-lg px-8">
             {txSignature ? "Create Task" : "Pay 0.1 SOL"}
           </Button>
         </div>
@@ -219,8 +218,7 @@ export default function Home() {
           </p>
           <Button
             onClick={() => setError("")}
-            className="gradient-pink text-black border-none h-16 text-lg px-8"
-          >
+            className="gradient-pink text-black border-none h-16 text-lg px-8">
             OK
           </Button>
         </div>
@@ -232,8 +230,7 @@ export default function Home() {
           </p>
           <Button
             onClick={() => setSuccess("")}
-            className="gradient-pink text-black border-none h-16 text-lg px-8"
-          >
+            className="gradient-pink text-black border-none h-16 text-lg px-8">
             OK
           </Button>
         </div>

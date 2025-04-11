@@ -25,7 +25,7 @@ interface AuthState {
 export const Nav = () => {
   const { publicKey, signMessage } = useWallet();
   const [authState, setAuthState] = useState<AuthState>({
-    isAuthenticated: !!localStorage.getItem("token"),
+    isAuthenticated: false,
     balance: "",
     isLoading: false,
   });
@@ -48,6 +48,10 @@ export const Nav = () => {
     }
   };
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setAuthState((prev) => ({ ...prev, isAuthenticated: true }));
+    }
     const handleAuthentication = async () => {
       if (!publicKey || !signMessage || authAttempted.current) return;
 
@@ -120,8 +124,7 @@ const NavActions = ({ balance, isLoading, handlePayout }: NavActionsProps) => (
     <Button
       onClick={() => handlePayout()}
       className="gradient-pink text-black border-none h-12 text-lg px-10"
-      disabled={isLoading}
-    >
+      disabled={isLoading}>
       {isLoading ? "Loading..." : `Payout ${balance} SOL`}
     </Button>
     <WalletMultiButton

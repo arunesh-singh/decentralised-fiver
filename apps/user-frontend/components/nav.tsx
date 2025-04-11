@@ -1,17 +1,17 @@
 "use client";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 export const Nav = () => {
   const { publicKey, signMessage } = useWallet();
-  const token = localStorage.getItem("token") || null;
-  const [status, setStatus] = useState(token ? true : false);
+  const [status, setStatus] = useState(false);
 
   useEffect(() => {
     const signAndSend = async () => {
+      const token = localStorage.getItem("token") || null;
+      setStatus(!!token);
       const message = new TextEncoder().encode(`Sign in on ClickPulse`);
       const signature = await signMessage?.(message);
 
@@ -47,9 +47,6 @@ export const Nav = () => {
         }}
         className="gradient-pink"
       />
-      {/* <Button className="gradient-pink text-black border-none h-12 text-lg px-10">
-          {status ? "Connected" : "Connect Wallet"}
-        </Button> */}
     </nav>
   );
 };
