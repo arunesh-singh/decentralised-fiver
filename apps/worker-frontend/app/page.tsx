@@ -27,7 +27,7 @@ export default function Home() {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        },
+        }
       );
 
       if (res.status === 200) {
@@ -35,7 +35,7 @@ export default function Home() {
       }
       console.log("Submitted successfully!", res);
     } catch (error: any) {
-      setError("Error submitting task.", error?.response?.data?.message);
+      setError(`Error submitting task. ${error?.response?.data?.message}`);
       console.error("Error submitting task:", error);
     } finally {
       setLoading(false);
@@ -53,7 +53,7 @@ export default function Home() {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-          },
+          }
         );
 
         if (res.status === 200) {
@@ -61,7 +61,7 @@ export default function Home() {
         }
         console.log("Task created successfully!", res);
       } catch (error: any) {
-        setError("Error creating task.", error?.response?.data?.message);
+        setError(`Error creating task. ${error?.response?.data?.message}`);
         console.error("Error creating task:", error);
       } finally {
         setLoading(false);
@@ -85,8 +85,7 @@ export default function Home() {
           </p>
           <Button
             onClick={() => setError("")}
-            className="gradient-pink text-black border-none h-16 text-lg px-8"
-          >
+            className="gradient-pink text-black border-none h-16 text-lg px-8">
             OK
           </Button>
         </div>
@@ -112,8 +111,7 @@ export default function Home() {
               <div
                 onClick={() => submission(option.id)}
                 key={index}
-                className="flex flex-col items-center justify-center text-xl text-black select-none  gap-4"
-              >
+                className="flex flex-col items-center justify-center text-xl text-black select-none  gap-4">
                 <Image
                   src={option.image_url}
                   alt={`Image ${index}`}

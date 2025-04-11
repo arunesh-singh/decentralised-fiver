@@ -6,7 +6,28 @@ import { useEffect, useState } from "react";
 
 export default function TasksPage() {
   const [error, setError] = useState("");
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<
+    {
+      id: string;
+      title: string;
+      amount: number;
+      createdAt: string;
+      updatedAt: string;
+      userId: string;
+      taskId: string;
+      status: string;
+      options: {
+        optionId: number;
+        count: number;
+        task: {
+          imageUrl: string;
+        };
+      }[];
+      task: {
+        imageUrl: string;
+      };
+    }[]
+  >([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,13 +37,12 @@ export default function TasksPage() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        console.log(tasks);
         if (res.status === 200) {
           setTasks(res.data);
         }
         console.log("Task created successfully!", res);
       } catch (error: any) {
-        setError("Error fetching task.", error?.response?.data?.message);
+        setError(`Error fetching task. ${error?.response?.data?.message}`);
         console.error("Error creating task:", error);
       }
     };

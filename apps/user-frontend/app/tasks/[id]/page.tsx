@@ -39,7 +39,7 @@ export default function TasksPage({
           setTask(response.data);
         }
         console.log(response.data);
-      } catch (error) {
+      } catch (error: any) {
         if (error.response) {
           // Handle specific error status codes
           if (error.response.status === 411) {
